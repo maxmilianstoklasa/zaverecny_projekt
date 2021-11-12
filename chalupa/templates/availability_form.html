@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Rezervace</title>
+</head>
+<body>
+    <form action="" method="POST">
+        <h2>Rezervace termínu</h2>
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button type="submit">Rezervovat</button>
+    </form>
+
+</body>
+</html>
