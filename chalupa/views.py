@@ -1,6 +1,7 @@
 from django.http import request
 from django.shortcuts import render, HttpResponse
 from django.views.generic import ListView, FormView, View
+from django.urls import reverse
 from .models import Room, Booking
 from .forms import AvailabilityForm
 from chalupa.booking_functions.availability import availability
@@ -14,8 +15,19 @@ def index(request):
 
 
 # seznam pokojů
-class RoomListView(ListView):
-    model = Room
+def RoomListView(request):
+    room = Room.objects.all()[0]
+    room_Names = dict(room.room_names)
+    room_values = room_Names.values()
+    room_list=[]
+    for room_name in room_Names:
+        room = room_Names.get(room_name)
+        room_url = reverse('chalupa:RoomDetailView', kwargs={'name': room_name})
+        room_list.append((room, room_url))
+    context = {
+        "room_list": room_list,
+    }
+    return render(request, 'room_list_view.html', context)
 
 
 # seznam rezervací (pro admina)
