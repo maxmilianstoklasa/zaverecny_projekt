@@ -6,6 +6,7 @@ from .models import Room, Booking
 from .forms import AvailabilityForm
 from chalupa.booking_functions.availability import availability
 
+
 # Create your views here.
 
 
@@ -19,7 +20,7 @@ def RoomListView(request):
     room = Room.objects.all()[0]
     room_Names = dict(room.room_names)
     room_values = room_Names.values()
-    room_list=[]
+    room_list = []
     for room_name in room_Names:
         room = room_Names.get(room_name)
         room_url = reverse('chalupa:RoomDetailView', kwargs={'name': room_name})
@@ -33,6 +34,14 @@ def RoomListView(request):
 # seznam rezervací (pro admina)
 class BookingList(ListView):
     model = Booking
+
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_staff:
+            booking_list = Booking.objects.all()
+            return booking_list
+        else:
+            booking_list = Booking.objects.filter(user=self.request.user)
+            return booking_list
 
 
 # detail pokoje
@@ -59,9 +68,9 @@ class RoomDetailView(View):
         form = AvailabilityForm(request.POST)
         if availability(data['check_in'], data['check_out']):
             bookings = Booking.objects.create(
-                user = self.request.user,
-                check_in = data['check_in'],
-                check_out = data['check_out'],
+                user=self.request.user,
+                check_in=data['check_in'],
+                check_out=data['check_out'],
             )
             bookings.save()
             return HttpResponse(bookings)
@@ -80,9 +89,9 @@ class BookingView(FormView):
         data = form.cleaned_data
         if availability(data['check_in'], data['check_out']):
             bookings = Booking.objects.create(
-                user = self.request.user,
-                check_in = data['check_in'],
-                check_out = data['check_out'],
+                user=self.request.user,
+                check_in=data['check_in'],
+                check_out=data['check_out'],
             )
             bookings.save()
             return HttpResponse(bookings)
