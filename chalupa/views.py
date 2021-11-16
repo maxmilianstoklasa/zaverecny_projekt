@@ -62,6 +62,7 @@ class RoomDetailView(View):
         else:
             return HttpResponse('Tento pokoj neexistuje')
 
+# Toto je nadbytečné
     def post(self, request, *args, **kwargs):
         name = self.kwargs.get('name', None)
         room_list = Room.objects.filter(name=name)
