@@ -31,6 +31,8 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 INSTALLED_APPS = [
     'quickstart',
+    'chalupa',
+    'chalupa.booking_functions',
 
     # optional, but used in most projects
     'djangocms_admin_style',

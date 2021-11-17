@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <title>Seznam rezervací</title>
+</head>
+<body>
+    <h1>Seznam rezervací</h1>
+    {% for booking in booking_list %}
+    <h2>{{ booking }}</h2>
+    {% endfor %}
+</body>
+</html>
