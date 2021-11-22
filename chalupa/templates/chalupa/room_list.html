@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="cs">
 <head>
     <meta charset="UTF-8">
@@ -6,8 +6,43 @@
 </head>
 <body>
     <h1>Pokoje</h1>
-    {% for room in room_list %}
-    <h2>{{ room }}</h2>
-    {% endfor %}
+    { for room in room_list %}
+    <h2>{ room }}</h2>
+    { endfor %}
 </body>
 </html>
+-->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoklaska</title>
+    <!-- Main StyleSheet -->
+    <link rel="stylesheet" href="{% static 'chalupa/css/rooms.css' %}">
+</head>
+
+<body>
+    <!-- Brand -->
+    <h1 id="brand">Chalupa Stoklaska - pokoje</h1>
+
+    <!-- Main Content -->
+    <div class="content">
+        {% for room_name in room_list %}
+        <div class="room">
+            <a href="{{ room.get_absolute_url }}">
+                <img
+                    src="http://www.stoklaska.cz/obrazky/fotoalbum/2011-09-interier-chalupy/1-inter-stoklas.jpg">
+
+                <h2>{{room_name}}</h2>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Commodi</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>>

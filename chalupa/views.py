@@ -1,5 +1,6 @@
 from django.http import request
 from django.shortcuts import render, HttpResponse
+from django.views import generic
 from django.views.generic import ListView, FormView, View
 from django.urls import reverse
 from .models import Room, Booking
@@ -16,8 +17,8 @@ def index(request):
 
 
 # seznam pokojů
-def RoomListView(request):
-    room = Room.objects.all()[0]
+'''def RoomListView(request):
+room = Room.objects.all()[0]
     room_Names = dict(room.room_names)
     room_values = room_Names.values()
     room_list = []
@@ -28,7 +29,13 @@ def RoomListView(request):
     context = {
         "room_list": room_list,
     }
-    return render(request, 'room_list_view.html', context)
+    return render(request, 'room_list_view.html', context)'''
+
+
+class RoomListView(generic.ListView):
+    model = Room
+    template_name = 'chalupa/room_list.html'
+
 
 
 # seznam rezervací (pro admina)
