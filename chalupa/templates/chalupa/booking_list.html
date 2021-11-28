@@ -1,13 +1,18 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+    <head>
     <meta charset="UTF-8">
-    <title>Seznam rezervací</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoklaska</title>
+    <!-- Main StyleSheet -->
+    <link rel="stylesheet" href="{% static 'chalupa/css/rooms.css' %}">
 </head>
-<body>
+
     <h1>Seznam rezervací</h1>
     {% for booking in booking_list %}
     <h2>{{ booking }}</h2>
     {% endfor %}
-</body>
-</html>
+
+{% endblock %}

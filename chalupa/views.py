@@ -1,7 +1,8 @@
 from django.http import request
 from django.shortcuts import render, HttpResponse
 from django.views import generic
-from django.views.generic import ListView, FormView, View
+from django.views.generic import ListView, FormView, View, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from .models import Room, Booking
 from .forms import AvailabilityForm
@@ -13,7 +14,12 @@ from chalupa.booking_functions.availability import availability
 
 # domovská stránka
 def index(request):
-    return render(request, 'index.html')
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+    context = {
+        'num_visits': num_visits,
+    }
+    return render(request, 'index.html', context=context)
 
 
 # seznam pokojů
@@ -34,12 +40,12 @@ room = Room.objects.all()[0]
 
 class RoomListView(generic.ListView):
     model = Room
+    context_object_name = 'room_list'
     template_name = 'chalupa/room_list.html'
 
 
-
 # seznam rezervací (pro admina)
-class BookingList(ListView):
+class BookingList(LoginRequiredMixin, ListView):
     model = Booking
 
     def get_queryset(self, *args, **kwargs):
@@ -52,7 +58,7 @@ class BookingList(ListView):
 
 
 # detail pokoje
-class RoomDetailView(View):
+'''class RoomDetailView(View):
     def get(self, request, *args, **kwargs):
         name = self.kwargs.get('name', None)
         form = AvailabilityForm()
@@ -67,7 +73,14 @@ class RoomDetailView(View):
             }
             return render(request, 'room_detail_view.html', context)
         else:
-            return HttpResponse('Tento pokoj neexistuje')
+            return HttpResponse('Tento pokoj neexistuje')'''
+
+
+class RoomDetailView(generic.DetailView):
+    model = Room
+    context_object_name = 'room_detail'
+    template_name = 'chalupa/room_detail.html'
+
 
 # Toto je nadbytečné
     def post(self, request, *args, **kwargs):
@@ -89,7 +102,7 @@ class RoomDetailView(View):
 
 
 # rezervace termínu
-class BookingView(FormView):
+class BookingView(LoginRequiredMixin, FormView):
     form_class = AvailabilityForm
     template_name = 'availability_form.html'
 

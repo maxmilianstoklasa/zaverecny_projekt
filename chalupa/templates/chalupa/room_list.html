@@ -12,8 +12,9 @@
 </body>
 </html>
 -->
-
+{% extends "base.html" %}
 {% load static %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="cs">
 
@@ -31,13 +32,13 @@
 
     <!-- Main Content -->
     <div class="content">
-        {% for room_name in room_list %}
+        {% for room in room_list %}
         <div class="room">
-            <a href="{{ room.get_absolute_url }}">
+            <a href="{% url 'chalupa:room-detail' room.pk %}">
                 <img
                     src="http://www.stoklaska.cz/obrazky/fotoalbum/2011-09-interier-chalupy/1-inter-stoklas.jpg">
 
-                <h2>{{room_name}}</h2>
+                <h2>{{room.name}}</h2>
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Commodi</p>
             </a>
         </div>
@@ -46,3 +47,4 @@
 </body>
 
 </html>>
+{% endblock %}

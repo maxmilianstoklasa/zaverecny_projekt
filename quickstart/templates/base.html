@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>{% block title %}This is my new project home page{% endblock title %}</title>
+        <title>{% block title %}Chalupa Stoklaska{% endblock title %}</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         {% render_block "css" %}
@@ -16,7 +16,16 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <a class="navbar-brand" href="/">Project name</a>
+                    <a class="navbar-brand" href="/">Chalupa Stoklaska</a>
+                    <a class="navbar-brand" href="/pokoje">Pokoje</a>
+                    <a class="navbar-brand" href="/seznam_rezervaci">Senam rezervací</a>
+                    <a class="navbar-brand" href="/rezervovat">Rezervace</a>
+                    {% if user.is_authenticated %}
+                        <p>Uživatel: {{ user.get_username }}</p>
+                        <a href="{% url 'logout'%}?next={{request.path}}">Odhlásit se</a>
+                    {% else %}
+                        <a href="{% url 'login'%}?next={{request.path}}">Přihlásit se</a>
+                    {% endif %}
                 </div>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">

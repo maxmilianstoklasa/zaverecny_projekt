@@ -1,16 +1,18 @@
-<!DOCTYPE html>
-<html lang="cs">
-<head>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <head>
     <meta charset="UTF-8">
-    <title>Rezervace</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoklaska</title>
+    <!-- Main StyleSheet -->
+    <link rel="stylesheet" href="{% static 'chalupa/css/rooms.css' %}">
 </head>
-<body>
+
     <form action="" method="POST">
         <h2>Rezervace termínu</h2>
         {{ form.as_p }}
         {% csrf_token %}
         <button type="submit">Rezervovat</button>
     </form>
-
-</body>
-</html>
+{% endblock %}

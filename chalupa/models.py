@@ -1,8 +1,10 @@
 from django.db import models
 from django.conf import settings
 # from phonenumber_field.modelfields import PhoneNumberField
+from django.urls import reverse
 
 # Create your models here.
+
 
 
 def attachment_path(instance, filename):
@@ -43,14 +45,17 @@ class Room(models.Model):
     class Meta:
         ordering = ["name"]
 
+    '''def get_absolute_url(self):
+        return reverse('RoomDetailView', args=[str(self.id)])'''
+
     def __str__(self):
         return f'{self.name}, pro {self.capacity} osoby'
 
 
 class Booking(models.Model):
     number_of_guests = models.IntegerField(default=1)
-    check_in = models.DateField(verbose_name='Od', blank=True, null=True)
-    check_out = models.DateField(verbose_name='Do', blank=True, null=True)
+    check_in = models.DateField(verbose_name='Od', default='')
+    check_out = models.DateField(verbose_name='Do', default='')
     note = models.TextField(max_length=2000, null=True, blank=True)
     booking_object = models.ForeignKey(BookingObject, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, help_text='Enter the name and surname', on_delete=models.CASCADE,
@@ -70,7 +75,7 @@ class Attachment(models.Model):
     interior = models.BooleanField('Does the photo display interior?')
     exterior = models.BooleanField('Does the photo display exterior?')
     booking_object = models.ForeignKey(BookingObject, on_delete=models.CASCADE)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True)
 
     class Meta:
         order_with_respect_to = 'room'

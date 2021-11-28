@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -6,5 +8,9 @@
 </head>
 <body>
     <h1>Domovská stránka chalupy Stoklaska</h1>
+    <p>Uživatel: {{ user.get_username }}</p>
+    <p>Počet návštěv: {{ num_visits }}.</p>
+
 </body>
 </html>
+{% endblock %}
