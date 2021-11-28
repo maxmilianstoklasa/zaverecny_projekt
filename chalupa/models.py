@@ -70,15 +70,10 @@ class Booking(models.Model):
 
 class Attachment(models.Model):
     title = models.CharField(max_length=100, verbose_name="Title")
-    last_update = models.DateTimeField(auto_now=True)
-    file = models.FileField(upload_to=attachment_path, null=True, verbose_name="File")
-    interior = models.BooleanField('Does the photo display interior?')
-    exterior = models.BooleanField('Does the photo display exterior?')
+    #last_update = models.DateTimeField(auto_now=True)
+    image = models.ImageField(upload_to=attachment_path, null=True, blank=False)
     booking_object = models.ForeignKey(BookingObject, on_delete=models.CASCADE)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
-        order_with_respect_to = 'room'
-
-    def __str__(self):
-        return f'{self.title}'
+        order_with_respect_to = 'title'

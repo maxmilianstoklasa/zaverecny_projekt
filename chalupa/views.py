@@ -120,3 +120,18 @@ class BookingView(LoginRequiredMixin, FormView):
             return HttpResponse('Tento termín už je rezervovaný')
         form.print_form()
         return super().form_valid(form)
+
+
+def gallery(request):
+    return render(request, 'chalupa/gallery.html')
+
+
+def view_image(request, pk):
+    return render(request, 'chalupa/gallery.html')
+
+
+def add_image(request):
+    return render(request, 'chalupa/image_add.html')
+
+
+
