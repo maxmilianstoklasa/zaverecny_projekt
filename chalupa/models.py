@@ -27,6 +27,9 @@ class BookingObject(models.Model):
     number_of_rooms = models.PositiveIntegerField(default='3', verbose_name='Number of rooms',
                                                   help_text='How many rooms for guests does it have?')
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         ordering = ["name"]
 
@@ -68,12 +71,23 @@ class Booking(models.Model):
         return f'{self.user}, od {self.check_in} do {self.check_out}, {self.number_of_guests} hostů'
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=40, null=False, blank=False)
+
+    def __str__(self):
+        return self.name
+
+
 class Attachment(models.Model):
     title = models.CharField(max_length=100, verbose_name="Title")
     #last_update = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to=attachment_path, null=True, blank=False)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    image = models.ImageField(null=False, blank=False)
     booking_object = models.ForeignKey(BookingObject, on_delete=models.CASCADE)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True, blank=True)
+    #room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         order_with_respect_to = 'title'
