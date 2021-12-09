@@ -1,11 +1,15 @@
-from django.http import request
-from django.shortcuts import render, HttpResponse
+from django.http import request, HttpResponseRedirect
+from datetime import datetime, date, timedelta
+from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.views import generic
 from django.views.generic import ListView, FormView, View, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
+from django.utils.safestring import mark_safe
+
 from .models import Room, Booking
-from .forms import AvailabilityForm
+from .forms import AvailabilityForm, Calendar, BookingForm
+import calendar
 from chalupa.booking_functions.availability import availability
 
 
@@ -113,6 +117,8 @@ class BookingView(LoginRequiredMixin, FormView):
                 user=self.request.user,
                 check_in=data['check_in'],
                 check_out=data['check_out'],
+                number_of_guests=data['number_of_guests'],
+                #note=data['note'],
             )
             bookings.save()
             return HttpResponse(bookings)
@@ -120,6 +126,54 @@ class BookingView(LoginRequiredMixin, FormView):
             return HttpResponse('Tento termín už je rezervovaný')
         form.print_form()
         return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        d = get_date(self.request.GET.get('month', None))
+        cal = Calendar(d.year, d.month)
+
+        html_cal = cal.formatmonth(withyear=True)
+        context['calendar'] = mark_safe(html_cal)
+        context['prev_month'] = prev_month(d)
+        context['next_month'] = next_month(d)
+        return context
+
+
+def prev_month(d):
+    first = d.replace(day=1)
+    prev_month = first - timedelta(days=1)
+    month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
+    return month
+
+
+def next_month(d):
+    days_in_month = calendar.monthrange(d.year, d.month)[1]
+    last = d.replace(day=days_in_month)
+    next_month = last + timedelta(days=1)
+    month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
+    return month
+
+
+def get_date(req_day):
+    if req_day:
+        year, month = (int(x) for x in req_day.split('-'))
+        return date(year, month, day=1)
+    return datetime.today()
+
+
+def booking(request, booking_id=None):
+    instance = Booking()
+    if booking_id:
+        instance = get_object_or_404(Booking, pk=booking_id)
+    else:
+        instance = Booking()
+
+    form = BookingForm(request.POST or None, instance=instance)
+    if request.POST and form.is_valid():
+        form.save()
+        return HttpResponseRedirect(reverse('chalupa:BookingView'))
+    return render(request, 'chalupa/booking_form.html', {'form': form})
 
 
 def gallery(request):
@@ -132,6 +186,16 @@ def view_image(request, pk):
 
 def add_image(request):
     return render(request, 'chalupa/image_add.html')
+
+
+'''class CalendarView(generic.ListView):
+    model = Booking
+    template_name = 'availability_form.html'
+    '''
+
+
+
+
 
 
 

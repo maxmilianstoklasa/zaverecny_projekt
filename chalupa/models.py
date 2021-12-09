@@ -15,7 +15,7 @@ def image_path(instance, filename):
     return "pokoj/" + str(instance.id) + "/image/" + filename
 
 
-class BookingObject(models.Model):
+'''class BookingObject(models.Model):
     name = models.CharField(max_length=100, verbose_name='Name', help_text='Chalupa Stoklaska')
     image = models.ImageField(upload_to=image_path, blank=True, null=True, verbose_name='Image')
     address = models.CharField(max_length=100, verbose_name='Address', help_text='Ludvíkov 81')
@@ -31,7 +31,7 @@ class BookingObject(models.Model):
         return self.name
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["name"]'''
 
 class Room(models.Model):
     '''room_names = (
@@ -43,7 +43,7 @@ class Room(models.Model):
     image = models.ImageField(upload_to=image_path, blank=True, null=True, verbose_name="Image")
     capacity = models.PositiveIntegerField(help_text='Enter the capacity of the room (extra beds included)', default='3')
     extra_bed = models.BooleanField(default=False)
-    booking_object = models.ForeignKey(BookingObject, on_delete=models.CASCADE)
+    #booking_object = models.ForeignKey(BookingObject, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ["name"]
@@ -60,7 +60,7 @@ class Booking(models.Model):
     check_in = models.DateField(verbose_name='Od', default='')
     check_out = models.DateField(verbose_name='Do', default='')
     note = models.TextField(max_length=2000, null=True, blank=True)
-    booking_object = models.ForeignKey(BookingObject, on_delete=models.CASCADE)
+    #booking_object = models.ForeignKey(BookingObject, on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, help_text='Enter the name and surname', on_delete=models.CASCADE,
                              default='')
 
@@ -69,6 +69,11 @@ class Booking(models.Model):
 
     def __str__(self):
         return f'{self.user}, od {self.check_in} do {self.check_out}, {self.number_of_guests} hostů'
+
+    @property
+    def get_html_url(self):
+        url = reverse('chalupa:booking-edit', args=(self.id,))
+        return f'<a href="{url}"> Rezervováno od {self.user} </a>'
 
 
 class Category(models.Model):
@@ -83,7 +88,7 @@ class Attachment(models.Model):
     #last_update = models.DateTimeField(auto_now=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     image = models.ImageField(null=False, blank=False)
-    booking_object = models.ForeignKey(BookingObject, on_delete=models.CASCADE)
+    #booking_object = models.ForeignKey(BookingObject, on_delete=models.CASCADE)
     #room = models.ForeignKey(Room, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):

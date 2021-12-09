@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import BookingObject, Room, Booking, Category, Attachment
+from .models import Room, Booking, Category, Attachment
 # Register your models here.
-admin.site.register(BookingObject)
+#admin.site.register(BookingObject)
 admin.site.register(Room)
 admin.site.register(Booking)
 admin.site.register(Category)

@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'quickstart',
     'chalupa',
     'chalupa.booking_functions',
+    #'crispy_forms',
 
     # optional, but used in most projects
     'djangocms_admin_style',
@@ -84,6 +85,7 @@ INSTALLED_APPS = [
     'djangocms_bootstrap4.contrib.bootstrap4_tabs',
     'djangocms_bootstrap4.contrib.bootstrap4_utilities',
 ]
+#CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

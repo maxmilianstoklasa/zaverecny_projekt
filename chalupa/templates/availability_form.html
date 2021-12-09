@@ -2,12 +2,12 @@
 {% load static %}
 {% block content %}
     <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stoklaska</title>
-    <!-- Main StyleSheet -->
-    <link rel="stylesheet" href="{% static 'chalupa/css/rooms.css' %}">
-</head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Stoklaska</title>
+        <!-- Main StyleSheet -->
+        <link rel="stylesheet" href="{% static 'chalupa/css/calendar.css' %}">
+    </head>
 
     <form action="" method="POST">
         <h2>Rezervace termínu</h2>
@@ -15,4 +15,12 @@
         {% csrf_token %}
         <button type="submit">Rezervovat</button>
     </form>
+    <br>
+    <div class="clearfix">
+        <a class="btn btn-info left" href="{% url 'chalupa:BookingView' %}?{{ prev_month }}"> Previous Month </a>
+        <a class="btn btn-info right" href="{% url 'chalupa:BookingView' %}?{{ next_month }}"> Next Month </a>
+    </div>
+    <div>{{ calendar }}</div>
+
+
 {% endblock %}
