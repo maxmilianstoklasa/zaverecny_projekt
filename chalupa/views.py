@@ -2,9 +2,9 @@ from django.http import request, HttpResponseRedirect
 from datetime import datetime, date, timedelta
 from django.shortcuts import render, HttpResponse, get_object_or_404
 from django.views import generic
-from django.views.generic import ListView, FormView, View, DetailView
+from django.views.generic import ListView, FormView, View, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.utils.safestring import mark_safe
 
 from .models import Room, Booking
@@ -26,39 +26,10 @@ def index(request):
     return render(request, 'index.html', context=context)
 
 
-# seznam pokojů
-'''def RoomListView(request):
-room = Room.objects.all()[0]
-    room_Names = dict(room.room_names)
-    room_values = room_Names.values()
-    room_list = []
-    for room_name in room_Names:
-        room = room_Names.get(room_name)
-        room_url = reverse('chalupa:RoomDetailView', kwargs={'name': room_name})
-        room_list.append((room, room_url))
-    context = {
-        "room_list": room_list,
-    }
-    return render(request, 'room_list_view.html', context)'''
-
-
 class RoomListView(generic.ListView):
     model = Room
     context_object_name = 'room_list'
     template_name = 'chalupa/room_list.html'
-
-
-# seznam rezervací (pro admina)
-class BookingList(LoginRequiredMixin, ListView):
-    model = Booking
-
-    def get_queryset(self, *args, **kwargs):
-        if self.request.user.is_staff:
-            booking_list = Booking.objects.all()
-            return booking_list
-        else:
-            booking_list = Booking.objects.filter(user=self.request.user)
-            return booking_list
 
 
 # detail pokoje
@@ -87,7 +58,7 @@ class RoomDetailView(generic.DetailView):
 
 
 # Toto je nadbytečné
-    def post(self, request, *args, **kwargs):
+    '''def post(self, request, *args, **kwargs):
         name = self.kwargs.get('name', None)
         room_list = Room.objects.filter(name=name)
         form = AvailabilityForm(request.POST)
@@ -102,13 +73,13 @@ class RoomDetailView(generic.DetailView):
         else:
             return HttpResponse('Tenhle termín je už rezervovaný')
         form.print_form()
-        return super().form_valid(form)
+        return super().form_valid(form)'''
 
 
 # rezervace termínu
-class BookingView(LoginRequiredMixin, FormView):
+class BookingView(LoginRequiredMixin, FormView, ListView):
     form_class = AvailabilityForm
-    template_name = 'availability_form.html'
+    template_name = 'chalupa/booking_view.html'
 
     def form_valid(self, form):
         data = form.cleaned_data
@@ -118,7 +89,7 @@ class BookingView(LoginRequiredMixin, FormView):
                 check_in=data['check_in'],
                 check_out=data['check_out'],
                 number_of_guests=data['number_of_guests'],
-                #note=data['note'],
+                note=data['note'],
             )
             bookings.save()
             return HttpResponse(bookings)
@@ -138,6 +109,14 @@ class BookingView(LoginRequiredMixin, FormView):
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
         return context
+
+    def get_queryset(self, *args, **kwargs):
+        if self.request.user.is_staff:
+            booking_list = Booking.objects.all()
+            return booking_list
+        else:
+            booking_list = Booking.objects.filter(user=self.request.user)
+            return booking_list
 
 
 def prev_month(d):
@@ -162,7 +141,7 @@ def get_date(req_day):
     return datetime.today()
 
 
-def booking(request, booking_id=None):
+def booking_edit(request, booking_id=None):
     instance = Booking()
     if booking_id:
         instance = get_object_or_404(Booking, pk=booking_id)
@@ -173,7 +152,13 @@ def booking(request, booking_id=None):
     if request.POST and form.is_valid():
         form.save()
         return HttpResponseRedirect(reverse('chalupa:BookingView'))
-    return render(request, 'chalupa/booking_form.html', {'form': form})
+    return render(request, 'chalupa/booking_edit.html', {'form': form})
+
+
+class BookingCancelView(LoginRequiredMixin, DeleteView):
+    model = Booking
+    template_name = 'chalupa/booking_cancel.html'
+    success_url = reverse_lazy('chalupa:BookingView')
 
 
 def gallery(request):
@@ -190,7 +175,7 @@ def add_image(request):
 
 '''class CalendarView(generic.ListView):
     model = Booking
-    template_name = 'availability_form.html'
+    template_name = 'booking_view.html'
     '''
 
 

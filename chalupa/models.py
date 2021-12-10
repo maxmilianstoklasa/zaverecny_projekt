@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 # from phonenumber_field.modelfields import PhoneNumberField
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 # Create your models here.
 
@@ -34,11 +34,6 @@ def image_path(instance, filename):
         ordering = ["name"]'''
 
 class Room(models.Model):
-    '''room_names = (
-        ('modry', 'Modrý pokoj'),
-        ('zeleny', 'Zelený pokoj'),
-        ('oranzovy', 'Oranžový pokoj'),
-    )'''
     name = models.CharField(max_length=20, verbose_name='Room name', help_text='Enter the room name')
     image = models.ImageField(upload_to=image_path, blank=True, null=True, verbose_name="Image")
     capacity = models.PositiveIntegerField(help_text='Enter the capacity of the room (extra beds included)', default='3')
@@ -69,6 +64,9 @@ class Booking(models.Model):
 
     def __str__(self):
         return f'{self.user}, od {self.check_in} do {self.check_out}, {self.number_of_guests} hostů'
+
+    def get_booking_cancel_url(self):
+        return reverse_lazy('chalupa:BookingCancelView', args=[self.pk, ])
 
     @property
     def get_html_url(self):

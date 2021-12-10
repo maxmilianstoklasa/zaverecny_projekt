@@ -6,11 +6,20 @@ from .models import Booking
 
 
 class AvailabilityForm(forms.Form):
+    '''class Meta:
+        model = Booking
+        fields = ('check_in', 'check_out', 'number_of_guests', 'note')
+
+        widgets = {
+            'check_in': forms.DateField(attrs={'class': 'form-control'}),
+            'check_out': forms.DateField(attrs={'class': 'form-control'}),
+            'number_of_guests': forms.IntegerField(attrs={'class': 'form-control'}),
+            'note': forms.Textarea(attrs={'class': 'form-control'}),
+        }'''
     check_in = forms.DateField(required=True, input_formats=['%Y-%m-%d', ])
     check_out = forms.DateField(required=True, input_formats=['%Y-%m-%d', ])
     number_of_guests = forms.IntegerField(required=True)
-    #note = forms.CharField(max_length=255)
-
+    note = forms.CharField(required=False, widget=forms.Textarea)
     def print_form(self):
         pass
 
@@ -44,7 +53,7 @@ class Calendar(HTMLCalendar):
         bookings_per_day = bookings.filter(check_in__day=day)
         d = ''
         for booking in bookings_per_day:
-            d += f'<li style="background-color: red"> {booking.get_html_url} </li>'
+            d += f'<li class="list-group-item"> {booking.get_html_url} </li>'
 
         if day != 0:
             return f"<td><span class='date'>{day}</span><ul> {d} </ul></td>"
