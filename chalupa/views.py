@@ -1,13 +1,13 @@
 from django.http import request, HttpResponseRedirect
 from datetime import datetime, date, timedelta
-from django.shortcuts import render, HttpResponse, get_object_or_404
+from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
 from django.views import generic
 from django.views.generic import ListView, FormView, View, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from django.utils.safestring import mark_safe
 
-from .models import Room, Booking
+from .models import Room, Booking, Attachment, Category
 from .forms import AvailabilityForm, Calendar, BookingForm
 import calendar
 from chalupa.booking_functions.availability import availability
@@ -56,8 +56,7 @@ class RoomDetailView(generic.DetailView):
     context_object_name = 'room_detail'
     template_name = 'chalupa/room_detail.html'
 
-
-# Toto je nadbytečné
+    # Toto je nadbytečné
     '''def post(self, request, *args, **kwargs):
         name = self.kwargs.get('name', None)
         room_list = Room.objects.filter(name=name)
@@ -77,7 +76,7 @@ class RoomDetailView(generic.DetailView):
 
 
 # rezervace termínu
-class BookingView(LoginRequiredMixin, FormView, ListView):
+class BookingView(FormView, ListView):
     form_class = AvailabilityForm
     template_name = 'chalupa/booking_view.html'
 
@@ -162,25 +161,49 @@ class BookingCancelView(LoginRequiredMixin, DeleteView):
 
 
 def gallery(request):
-    return render(request, 'chalupa/gallery.html')
+    category = request.GET.get('category')
+    if category == None:
+        images = Attachment.objects.all()
+    else:
+        images = Attachment.objects.filter(category__name=category)
+
+    categories = Category.objects.all()
+    context = {'categories': categories, 'images': images}
+    return render(request, 'chalupa/gallery.html', context)
 
 
 def view_image(request, pk):
-    return render(request, 'chalupa/gallery.html')
+    image = Attachment.objects.get(id=pk)
+    return render(request, 'chalupa/gallery.html', {'image': image})
 
 
 def add_image(request):
-    return render(request, 'chalupa/image_add.html')
+    categories = Category.objects.all()
+
+    if request.method == 'POST':
+        data = request.POST
+        image = request.FILES.get('image')
+
+        if data['category'] != 'none':
+            category = Category.objects.get(id=data['category'])
+        elif data['category_new'] != '':
+            category, created = Category.objects.get_or_create(title=data['category_new'])
+        else:
+            category = None
+
+        attachment = Attachment.objects.create(
+            title=data['title'],
+            category=category,
+            image=image,
+        )
+
+        return redirect('chalupa:Gallery')
+
+    context = {'categories': categories}
+    return render(request, 'chalupa/image_add.html', context)
 
 
 '''class CalendarView(generic.ListView):
     model = Booking
     template_name = 'booking_view.html'
     '''
-
-
-
-
-
-
-

@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'quickstart',
     'chalupa',
     'chalupa.booking_functions',
+    'accounts',
     #'crispy_forms',
 
     # optional, but used in most projects

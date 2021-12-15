@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div class="row mb-3">
+        <div class="col-sm-12">
+            <p class="text-center">Registrace uživatele</p>
+                <div class="form-group">
+                    <form action="" method="POST">
+                        {{ form.as_p }}
+                        {% csrf_token %}
+                        <button type="submit" class="mb-3">Registrovat se</button>
+                    </form>
+                </div>
+        </div>
+    </div>
+{% endblock %}

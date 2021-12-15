@@ -5,14 +5,12 @@ from django.urls import reverse, reverse_lazy
 
 # Create your models here.
 
-
-
 def attachment_path(instance, filename):
     return "pokoj/" + str(instance.room.id) + "/attachments/" + filename
 
 
 def image_path(instance, filename):
-    return "pokoj/" + str(instance.id) + "/image/" + filename
+    return "pokoj/" + filename
 
 
 '''class BookingObject(models.Model):
