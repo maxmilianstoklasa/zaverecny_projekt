@@ -4,6 +4,7 @@ from django.shortcuts import render, HttpResponse, get_object_or_404, redirect
 from django.views import generic
 from django.views.generic import ListView, FormView, View, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
 from django.utils.safestring import mark_safe
 
@@ -76,7 +77,8 @@ class RoomDetailView(generic.DetailView):
 
 
 # rezervace termínu
-class BookingView(FormView, ListView):
+
+class BookingView(LoginRequiredMixin, FormView, ListView):
     form_class = AvailabilityForm
     template_name = 'chalupa/booking_view.html'
 

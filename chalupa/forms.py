@@ -29,10 +29,10 @@ class BookingForm(ModelForm):
         model = Booking
         # datetime-local is a HTML5 input type, format to make date time show on fields
         widgets = {
-            'check_in': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
+            'check_in': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d'),
             'check_out': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
         }
-        fields = '__all__'
+        fields = ('check_in', 'check_out', 'number_of_guests', 'note')
 
     def __init__(self, *args, **kwargs):
         super(BookingForm, self).__init__(*args, **kwargs)

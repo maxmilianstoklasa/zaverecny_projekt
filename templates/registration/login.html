@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-
+<body style="background-color: rgba(62,29,29,0.1)">
     {% if form.errors %}
         <p>Uživatelské jméno a heslo nejsou správné.</p>
     {% endif %}
@@ -10,12 +10,12 @@
             <p>Your account doesn't have access to this page. To proceed,
             please login with an account that has access.</p>
         {% else %}
-            <p>Please login to see this page.</p>
+            <p style="color: black">K zobrazení této stránky se potřebujete přihlásit.</p>
         {% endif %}
     {% endif %}
 
 
-    <form method="post" action="{% url 'login' %}">
+    <form method="post" action="{% url 'login' %}" style="color: black">
     {% csrf_token %}
     <table>
       <tr>
@@ -27,10 +27,11 @@
         <td>{{ form.password }}</td>
       </tr>
     </table>
-    <input type="submit" value="login" />
+    <input type="submit" value="Přihlásit se" />
     <input type="hidden" name="next" value="{{ next }}" />
     </form>
 
     <p><a href="{% url 'password_reset' %}">Zapomenuté heslo?</a></p>
+</body>
 
 {% endblock %}

@@ -14,16 +14,21 @@
                 height: 200px;
             }
 
-            .list-group-item a{
+            .list-group-item a {
                 text-decoration: none;
                 color: black;
             }
+
+            img.hover-shadow {
+                transition: 0.3s;
+            }
         </style>
     </head>
-    <div class="container m-4">
+    <body style="background-color: rgba(62,29,29,0.1)">
+    <div class="container m-4" >
         <div class="row">
             <div class="col-md-3">
-                <div class="card">
+                <div class="card" style="background-color: rgba(62,29,29,0)">
                     <div class="card-header">
                         Kategorie
                     </div>
@@ -43,25 +48,23 @@
                 </div>
             </div>
             <div class="col-md-9">
-
                 <div class="row">
                     {% for image in images %}
                         <div class="col-md-4 my-2">
                             <a href="{{ image.image.url }}">
                                 <img src="{{ image.image.url }}"
-                                     alt="{{ image.title }}" class="img-thumbnail img-fluid">
+                                     alt="{{ image.title }}" class="img-thumbnail img-fluid"
+                                     onclick="openModal();currentSlide(1)" class="hover-shadow">
                             </a>
                         </div>
                     {% empty %}
                         <h2 class="text-center">Na fotkách pracujeme ...</h2>
                     {% endfor %}
                 </div>
-
-
             </div>
         </div>
     </div>
-
+    </body>
 {% endblock %}
 
 

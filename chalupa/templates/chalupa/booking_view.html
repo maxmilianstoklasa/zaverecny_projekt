@@ -12,16 +12,17 @@
               integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
               crossorigin="anonymous">
     </head>
+    <body style="background-color: rgba(62,29,29,0.1)">
     <div class="container m-4">
         <div class="row">
-            <div class="col-md-4">
-                <div class="card">
+            <div class="col-md-4" >
+                <div class="card" style="background-color: rgba(62,29,29,0)">
                     <div class="card-header">
                         <b>Rezervovat</b>
                     </div>
                     <table>
                         <div class="form-group">
-                            <form action="" method="POST" class="m-3">
+                            <form action="" method="POST" class="m-3" enctype="multipart/form-data">
                                 {{ form.as_table }}
                                 {% csrf_token %}
                                 <button type="submit" class="mb-3">Rezervovat</button>
@@ -29,31 +30,32 @@
                         </div>
                     </table>
                 </div>
-                <div class="card mt-4">
+                <div class="card mt-4" style="background-color: rgba(62,29,29,0)">
                     <div class="card-header">
                         <b>Seznam rezervací</b>
                     </div>
                     <ul class="list-group list-group-flush">
                         {% for booking in booking_list %}
                             <li class="list-group-item">{{ booking }}
-                                <a href="{{ booking.get_booking_cancel_url }}" class="btn btn-outline-dark btn-sm right">Zrušit</a></li>
+                                <a href="{{ booking.get_booking_cancel_url }}"
+                                   class="btn btn-outline-dark btn-sm right">Zrušit</a></li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="clearfix">
-                    <a class="btn btn-outline-dark left" href="{% url 'chalupa:BookingView' %}?{{ prev_month }}">
+                    <a class="btn btn-light left" href="{% url 'chalupa:BookingView' %}?{{ prev_month }}">
                         Předchozí
                         měsíc </a>
-                    <a class="btn btn-outline-dark right" href="{% url 'chalupa:BookingView' %}?{{ next_month }}"> Další
+                    <a class="btn btn-light right" href="{% url 'chalupa:BookingView' %}?{{ next_month }}"> Další
                         měsíc </a>
                 </div>
                 {{ calendar }}
             </div>
         </div>
     </div>
-
+    </body>
 
 
     <!-- <form action="" method="POST">

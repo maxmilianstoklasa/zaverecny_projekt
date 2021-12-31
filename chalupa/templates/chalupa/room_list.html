@@ -26,20 +26,20 @@
     <link rel="stylesheet" href="{% static 'chalupa/css/rooms.css' %}">
 </head>
 
-<body>
+<body style="background-color: rgba(62,29,29,0.1)">
     <!-- Brand -->
-    <h1 id="brand">Chalupa Stoklaska - pokoje</h1>
+    <!--<h1 id="brand" style="color: #521b18; text-shadow: 2px 2px 0 #000">Chalupa Stoklaska - pokoje </h1> -->
 
     <!-- Main Content -->
-    <div class="content">
+    <div class="content" style="padding-top: 80px">
         {% for room in room_list %}
-        <div class="room">
+        <div class="room" style="border-radius: 0px; background-color: #521b18; margin: 0px; padding: 1rem">
             <a href="{% url 'chalupa:room-detail' room.pk %}">
-                <img
-                    src="http://www.stoklaska.cz/obrazky/fotoalbum/2011-09-interier-chalupy/1-inter-stoklas.jpg">
-
+                {% if room.image %}
+                <img src="{{ room.image.url }}">
+                {% endif %}
                 <h2>{{room.name}}</h2>
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Commodi</p>
+                <p> Pro {{ room.capacity }} osoby </p>
             </a>
         </div>
         {% endfor %}
