@@ -1,37 +1,11 @@
-# django CMS Divio quickstart
+# Webová aplikace s rezervačním systémem
 
-A Dockerised django CMS project, ready to deploy on Divio or another Docker-based cloud platform, and run
-locally in Docker on your own machine. A Divio account is not required.
+## Anotace
 
-This version uses Python 3.8 running and the most up-to-date versions of Django 3.1 and django CMS 3.8.
-
-
-## Try it
-
-```bash
-git clone git@github.com:divio/django-cms-divio-quickstart.git
-cd django-cms-divio-quickstart
-docker-compose build
-docker-compose run web python manage.py migrate
-docker-compose run web python manage.py createsuperuser
-docker-compose up
-open http://127.0.0.1:8000
-```
-
-For a more complete how-to guide to this project, see [Deploy a new django CMS project using the Divio quickstart
-repository](https://docs.divio.com/en/latest/how-to/django-cms-deploy-quickstart/) in the [Divio Developer
-Handbook](https://docs.divio.com).
+Tento projekt se zabývá vývojem webové aplikace s rezervačním systémem pro ubytování. Backendová část aplikace je vytvořena v šablonovacím systému Django CMS a objektově-relační databázi PostgreSQL, zatímco frontend je řešen sadou nástrojů Bootstrap 5 a kaskádovými styly CSS. Společně tvoří kompozitní sadu technologií, která se stará o autentizaci uživatelů a jejich práva, o úschovu a správu dat v rezervačním systému a v neposlední řadě také o vizuální aspekt a responzivitu stránek. Hlavní funkcí aplikace je rezervace ubytování. Registrovaní a přihlášení uživatelé si můžou objednat termín pobytu přes rezervační formulář. Tento termín se vzápětí objevuje v kalendáři a soustavném seznamu rezervací, prostřednictvím nichž můžou uživatelé své rezervace upravit či zcela smazat. Dalšími částmi webové aplikace jsou galerie s filtry pro exteriér a interiér, seznam i detail jednotlivých pokojů a uvítací stránka s informacemi, kontakty, ceníkem a Google mapami. Galerie také disponuje administrátorským rozhraním pro správu fotografií a filtrů.
 
 
-## Customising the project
 
-This project is ready-to-go without making any changes at all, but also gives you some options.
+## Annotation
 
-As-is, it will include a number of useful django CMS plugins and Bootstrap 4 for the frontend. You don't have to use
-these; they're optional. If you don't want to use them, read through the `settings.py` and `requirements.txt` files to
-see sections that can be removed - in each case, the section is noted with a comment containing the word 'optional'.
-
-Options are also available for using Postgres/MySQL, uWSGI/Gunicorn/Guvicorn, etc.
-
-Again, see [Deploy a new django CMS project using the Divio quickstart
-repository](https://docs.divio.com/en/latest/how-to/django-cms-deploy-quickstart/) for more guidance on customisation.
+This project deals with a development of a web application with a booking system for accommodation. The backend part of the application is created in the Django CMS framework and the PostgreSQL object-relational database, while the frontend is solved by the Bootstrap 5 toolkit and the CSS style sheet language. Together they create a compound set of technologies that takes care of user authentication and permissions, as well as the storage and data management within the booking system and, last but not least, the visual aspect and responsiveness. The main function of the application is the booking system. Registered and logged-in users can book a date of stay via the reservation form. The booking is then shown in the calendar and the systematic booking list, through which the users may edit or delete their booking. Other parts of the web application are a gallery with exterior and interior filters, a list and details of individual rooms and a welcome page with information, contacts, price list and Google maps. The gallery also has an administration interface for managing photos and filters.
