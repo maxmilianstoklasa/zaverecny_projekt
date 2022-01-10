@@ -77,7 +77,6 @@ class RoomDetailView(generic.DetailView):
 
 
 # rezervace termínu
-
 class BookingView(LoginRequiredMixin, FormView, ListView):
     form_class = AvailabilityForm
     template_name = 'chalupa/booking_view.html'
@@ -85,19 +84,18 @@ class BookingView(LoginRequiredMixin, FormView, ListView):
     def form_valid(self, form):
         data = form.cleaned_data
         if availability(data['check_in'], data['check_out']):
-            bookings = Booking.objects.create(
+            booking = Booking.objects.create(
                 user=self.request.user,
                 check_in=data['check_in'],
                 check_out=data['check_out'],
                 number_of_guests=data['number_of_guests'],
-                note=data['note'],
-            )
-            bookings.save()
-            return HttpResponse(bookings)
+                note=data['note'], )
+            booking.save()
+            return HttpResponse(booking)
         else:
             return HttpResponse('Tento termín už je rezervovaný')
-        form.print_form()
-        return super().form_valid(form)
+        # form.print_form()
+        # return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

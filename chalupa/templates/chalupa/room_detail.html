@@ -2,16 +2,17 @@
 {% load static %}
 {% block content %}
     <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detail pokoje</title>
-    <script src="https://kit.fontawesome.com/692189991f.js" crossorigin="anonymous"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Detail pokoje</title>
+        <script src="https://kit.fontawesome.com/692189991f.js" crossorigin="anonymous"></script>
 
-    <!-- Main StyleSheet -->
-    <link rel="stylesheet" href="{% static '/chalupa/css/detail.css' %}">
-</head>
+        <!-- Main StyleSheet -->
+        <link rel="stylesheet" href="{% static '/chalupa/css/detail.css' %}">
+    </head>
 
     <!-- Hlavní obsah -->
+    <body style="background-color: rgba(62,29,29,0.1)">
     <div class="content mb-3">
 
         <!-- Fotka pokoje -->
@@ -21,11 +22,11 @@
                     <img src="{{ room_detail.image.url }}" class="pt-3 m-3" alt="Picture of the room">
                 </a>
             {% endif %}
-               <!-- src="http://www.stoklaska.cz/obrazky/fotoalbum/2011-09-interier-chalupy/1-inter-stoklas.jpg">-->
+            <!-- src="http://www.stoklaska.cz/obrazky/fotoalbum/2011-09-interier-chalupy/1-inter-stoklas.jpg">-->
         </div>
 
         <!-- Detail pokoje -->
-        <div class="room col-md-4">
+        <div class="room col-md-3" style="padding: 70px">
 
             <!-- Div 1: Šipka zpět na seznam pokojů -->
             <div class="home">
@@ -33,10 +34,10 @@
             </div>
 
             <!-- Div 2: Informace o pokoji -->
-            <div class="room-info">
-                <h1>{{room_name}}</h1>
+            <div class="room-info" style="color: black">
+                <h1>{{ room_name }}</h1>
                 <p>{{ room_detail.name }}</p>
-                <p>Kapacita: {{ room_detail.capacity }}</p>
+                <p>Kapacita: Pro {{ room_detail.capacity }} osoby</p>
                 <p>Přistýlka: {{ room_detail.extra_bed }}</p>
             </div>
 
@@ -67,5 +68,6 @@
         </div> <!-- Konec detailu pokoje -->
 
     </div> <!-- Konec hlavního obsahu -->
+    </body>
 
 {% endblock %}

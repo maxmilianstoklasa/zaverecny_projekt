@@ -6,16 +6,6 @@ from .models import Booking
 
 
 class AvailabilityForm(forms.Form):
-    '''class Meta:
-        model = Booking
-        fields = ('check_in', 'check_out', 'number_of_guests', 'note')
-
-        widgets = {
-            'check_in': forms.DateField(attrs={'class': 'form-control'}),
-            'check_out': forms.DateField(attrs={'class': 'form-control'}),
-            'number_of_guests': forms.IntegerField(attrs={'class': 'form-control'}),
-            'note': forms.Textarea(attrs={'class': 'form-control'}),
-        }'''
     check_in = forms.DateField(required=True, input_formats=['%Y-%m-%d', ])
     check_out = forms.DateField(required=True, input_formats=['%Y-%m-%d', ])
     number_of_guests = forms.IntegerField(required=True)
@@ -27,7 +17,6 @@ class AvailabilityForm(forms.Form):
 class BookingForm(ModelForm):
     class Meta:
         model = Booking
-        # datetime-local is a HTML5 input type, format to make date time show on fields
         widgets = {
             'check_in': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d'),
             'check_out': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
@@ -36,7 +25,6 @@ class BookingForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(BookingForm, self).__init__(*args, **kwargs)
-        # input_formats to parse HTML5 datetime-local input to datetime field
         self.fields['check_in'].input_formats = ('%Y-%m-%dT%H:%M',)
         self.fields['check_out'].input_formats = ('%Y-%m-%dT%H:%M',)
 

@@ -15,6 +15,36 @@
     <link rel="stylesheet" href="{% static '/staticfiles/css/Social-Icons.css' %}">
     <link rel="stylesheet" href="{% static '/chalupa/css/style.css' %}">
     <title>Chalupa Stoklaska - hlavní stránka</title>
+    <script src="https://kit.fontawesome.com/a3e24b2b52.js" crossorigin="anonymous"></script>
+    <style>
+        #bg {
+            background-image: url('{% static "staticfiles/img/pres_most_hlavni.jpeg" %}');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+
+        #prices {
+            background-image: url('{% static "staticfiles/img/kuzelky_main.jpeg" %}');
+            padding-bottom: 200px;
+            padding-top: 200px;
+            background-position: bottom;
+            background-size: cover;
+        }
+
+        .btn {
+            outline: 2px solid white;
+            color: white;
+            background-color: transparent;
+            box-shadow: 0 0 0 0;
+        }
+        .btn:visited {
+            outline: 2px solid white;
+            color: white;
+            background-color: transparent;
+            box-shadow: 0 0 0 0;
+        }
+    </style>
 </head>
 <body id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="77">
 <nav class="navbar navbar-light navbar-expand-md fixed-top" id="mainNav" style="background: rgba(62,29,29,0);
@@ -48,11 +78,14 @@
                         <a class="dropdown-item" href="/pokoje"
                            style="border-bottom: 2px solid rgb(65,22,20) ; color: #ffffff;">POKOJE</a>
                         {% if user.is_authenticated %}
-                            <a class="dropdown-item" href="{% url 'logout' %}?next={{ request.path }}" style="color: #ffffff;">ODHLÁŠENÍ</a>
+                            <a class="dropdown-item" href="{% url 'logout' %}?next={{ request.path }}"
+                               style="color: #ffffff;">ODHLÁŠENÍ</a>
                             <a class="dropdown-item" style="color: #ffffff;">Uživatel: {{ user.get_username }}</a>
                         {% else %}
-                            <a class="dropdown-item" href="{% url 'login' %}?next={{ request.path }}" style="padding-top: 10px; color: #ffffff;">PŘIHLÁŠENÍ</a>
-                            <a class="dropdown-item" href="{% url 'signup' %}?next={{ request.path }}" style="color: #ffffff;">REGISTRACE</a>
+                            <a class="dropdown-item" href="{% url 'login' %}?next={{ request.path }}"
+                               style="padding-top: 10px; color: #ffffff;">PŘIHLÁŠENÍ</a>
+                            <a class="dropdown-item" href="{% url 'signup' %}?next={{ request.path }}"
+                               style="color: #ffffff;">REGISTRACE</a>
                         {% endif %}
                         <a class="dropdown-item" href="/#contact" style="color: #ffffff;">KONTAKT</a>
                     </div>
@@ -62,8 +95,8 @@
     </div>
 </nav>
 <header class="masthead" style="background: rgb(245,239,239);">
-    <div class="intro-body"
-         style="background: url(http://www.stoklaska.cz/obrazky/fotoalbum/2011-09-interier-chalupy/1-inter-stoklas.jpg) left / cover repeat;">
+    <div id="bg" class="intro-body"
+         style="">
         <div class="container">
             <div class="row" style="border-width: 3px;border-bottom-width: 0px;">
                 <div class="col-lg-8 mx-auto"
@@ -100,9 +133,7 @@
         </div>
     </div>
 </section>
-<section class="text-center content-section" id="prices"
-         style="background: url(../../data/media/kuzelky.jpeg)center / cover, #7a3430;
-         padding-bottom: 200px; padding-top: 200px;">
+<section class="text-center content-section" id="prices">
     <div class="container">
         <div class="col-lg-8 mx-auto">
             <h1>CEnÍK</h1>
@@ -157,13 +188,6 @@
                 </p>
                 <p style="font-size: 16px; margin: 0"><strong>Web:&nbsp;</strong><a href="#">www.stoklaska.cz</a></p>
                 <p style="font-size: 16px; margin: 0"><strong>Adresa: </strong>Ludvíkov 81, 793 26 Ludvíkov, Česko</p>
-                <ul class="list-inline banner-social-buttons">
-                    <li class="list-inline-item">&nbsp;<div class="social-icons"
-                                                            style="padding-top: 0px;padding-bottom: 0px;background: rgba(255,255,255,0);">
-                        <a href="#"><i class="icon ion-social-facebook"
-                                       style="color: #f0f9ff;border-width: 1px;"></i></a></div>
-                    </li>
-                </ul>
             </div>
             <div class="col map-clean">
                 <iframe allowfullscreen="" frameborder="0"
