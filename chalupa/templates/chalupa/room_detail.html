@@ -38,7 +38,7 @@
                 <h1>{{ room_name }}</h1>
                 <p>{{ room_detail.name }}</p>
                 <p>Kapacita: Pro {{ room_detail.capacity }} osoby</p>
-                <p>Přistýlka: {{ room_detail.extra_bed }}</p>
+                <p>Přistýlka: {% if room_detail.extra_bed %} Ano {% else %} Ne {% endif %}</p>
             </div>
 
             <!-- Div 3: Rezervace

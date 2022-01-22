@@ -159,7 +159,7 @@ class BookingCancelView(LoginRequiredMixin, DeleteView):
     template_name = 'chalupa/booking_cancel.html'
     success_url = reverse_lazy('chalupa:BookingView')
 
-
+# galerie
 def gallery(request):
     category = request.GET.get('category')
     if category == None:

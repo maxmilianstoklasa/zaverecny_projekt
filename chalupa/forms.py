@@ -18,7 +18,7 @@ class BookingForm(ModelForm):
     class Meta:
         model = Booking
         widgets = {
-            'check_in': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%d'),
+            'check_in': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
             'check_out': DateInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
         }
         fields = ('check_in', 'check_out', 'number_of_guests', 'note')

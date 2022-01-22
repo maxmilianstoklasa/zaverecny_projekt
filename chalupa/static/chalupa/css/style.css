@@ -43,7 +43,7 @@ html{
 
 @media (min-width: 768px){
     .masthead {
-    height: 600px;
+    height: 768px;
     padding: 0;
     }
 }
